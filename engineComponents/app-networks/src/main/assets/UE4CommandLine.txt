@@ -1,0 +1,1 @@
+../../../ARTest_2/ARTest_2.uproject  /Game/HandheldARBP/Maps/HandheldARBlankMap -Messaging -SessionId=37006BE64F18E286EB557CB845D18A65 -SessionOwner="Meteor" -SessionName="Launch On Device" -iterative

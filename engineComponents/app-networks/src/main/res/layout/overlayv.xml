@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    tools:ignore="Overdraw">
+
+  <Button
+      android:id="@+id/downloadbtn"
+      android:layout_width="wrap_content"
+      android:layout_height="47dp"
+      android:text="Change model"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.092"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.929" />
+
+  <Button
+      android:id="@+id/start"
+      android:layout_width="wrap_content"
+      android:layout_height="47dp"
+      android:text="START AR"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.851"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.826" />
+
+  <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="397dp"
+    android:layout_height="731dp"
+    android:background="#00000000"
+    tools:layout_editor_absoluteX="7dp"
+    tools:layout_editor_absoluteY="0dp" />
+
+<!--  <SearchView-->
+<!--      android:id="@+id/searchBar"-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="50dp"-->
+<!--      android:background="@drawable/userwidgetbox"-->
+<!--      android:icon="@drawable/ic_search"-->
+<!--      app:layout_constraintBottom_toBottomOf="@+id/imageView"-->
+<!--      app:layout_constraintTop_toTopOf="@+id/imageView"-->
+<!--      app:layout_constraintVertical_bias="0.1"-->
+<!--      tools:layout_editor_absoluteX="7dp" />-->
+
+<!--  <TextView-->
+<!--      android:id="@+id/searchText"-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="50dp"-->
+<!--      android:text="Search Your Dream Car"-->
+<!--      android:textSize="10pt"-->
+<!--      app:layout_constraintBottom_toBottomOf="@+id/searchBar"-->
+<!--      app:layout_constraintEnd_toEndOf="@+id/searchBar"-->
+<!--      app:layout_constraintHorizontal_bias="1.0"-->
+<!--      app:layout_constraintStart_toStartOf="@+id/searchBar"-->
+<!--      app:layout_constraintTop_toTopOf="@+id/searchBar"-->
+<!--      android:gravity="center" />-->
+
+  <!--TextView
+      android:id="@+id/textViewUserWidget"
+      android:layout_width="150dp"
+      android:layout_height="120dp"
+      android:background="@drawable/userwidgetbox"
+      android:gravity="center_horizontal"
+      android:text="Score Board"
+      android:textColor="#000000"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="@+id/imageView"
+      app:layout_constraintHorizontal_bias="0.02"
+      app:layout_constraintStart_toStartOf="@+id/imageView"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.15" />
+
+  <TextView
+      android:id="@+id/textViewP1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Player 1: 0"
+      android:textColor="#000000"
+      app:layout_constraintBottom_toBottomOf="@+id/textViewUserWidget"
+      app:layout_constraintEnd_toEndOf="@+id/textViewUserWidget"
+      app:layout_constraintStart_toStartOf="@+id/textViewUserWidget"
+      app:layout_constraintTop_toTopOf="@+id/textViewUserWidget"
+      app:layout_constraintVertical_bias="0.26" />
+
+  <TextView
+      android:id="@+id/textViewP2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Player 2: 0"
+      android:textColor="#000000"
+      app:layout_constraintBottom_toBottomOf="@+id/textViewUserWidget"
+      app:layout_constraintEnd_toEndOf="@+id/textViewUserWidget"
+      app:layout_constraintStart_toStartOf="@+id/textViewUserWidget"
+      app:layout_constraintTop_toTopOf="@+id/textViewUserWidget"
+      app:layout_constraintVertical_bias="0.56" />
+
+  <TextView
+      android:id="@+id/textViewP3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Player 3: 0"
+      android:textColor="#000000"
+      app:layout_constraintBottom_toBottomOf="@+id/textViewUserWidget"
+      app:layout_constraintEnd_toEndOf="@+id/textViewUserWidget"
+      app:layout_constraintStart_toStartOf="@+id/textViewUserWidget"
+      app:layout_constraintTop_toTopOf="@+id/textViewUserWidget"
+      app:layout_constraintVertical_bias="0.86" /-->
+
+  <!--Switch
+      android:id="@+id/switchCameraState"
+      android:layout_width="250dp"
+      android:layout_height="wrap_content"
+      android:text="Camera Pose: "
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.05"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.105" />
+
+  <Switch
+      android:id="@+id/switchLightEstimate"
+      android:layout_width="250dp"
+      android:layout_height="wrap_content"
+      android:text="Light Estimation: "
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.05"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/imageView"
+      app:layout_constraintVertical_bias="0.145" />
+
+  <Switch
+      android:id="@+id/switchPointCloud"
+      android:layout_width="250dp"
+      android:layout_height="wrap_content"
+      android:text="Point Cloud: "
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.05"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/imageView"
+      app:layout_constraintVertical_bias="0.185" />
+
+  <Switch
+      android:id="@+id/switchEdge"
+      android:layout_width="250dp"
+      android:layout_height="wrap_content"
+      android:text="Edge Feature: "
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.048"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.225" />
+
+  <Switch
+      android:id="@+id/switchCameraFrame"
+      android:layout_width="250dp"
+      android:layout_height="wrap_content"
+      android:text="Camera Frame: "
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="@+id/imageView"
+      app:layout_constraintHorizontal_bias="0.05"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.065" />
+
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/floatingActionButton1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:clickable="true"
+      app:backgroundTint="@null"
+      app:layout_constraintBottom_toBottomOf="@+id/imageView"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.914"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/imageView"
+      app:layout_constraintVertical_bias="0.077"
+      app:srcCompat="@drawable/ic_network_check_black_24dp" />
+
+  <RelativeLayout
+      android:id="@+id/relativelaout1"
+      android:layout_width="250dp"
+      android:layout_height="250dp"
+      app:layout_constraintBottom_toBottomOf="@+id/imageView"
+      app:layout_constraintEnd_toEndOf="@+id/imageView"
+      app:layout_constraintStart_toStartOf="@+id/imageView"
+      app:layout_constraintTop_toTopOf="parent"
+      android:orientation="vertical"
+      android:visibility="invisible"
+      tools:context=".GameActivity">
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/chart1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+  </RelativeLayout-->
+
+
+</android.support.constraint.ConstraintLayout>
