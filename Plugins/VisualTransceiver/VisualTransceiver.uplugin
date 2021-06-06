@@ -1,0 +1,22 @@
+{
+  "FileVersion": 3,
+
+  "Version": 1,
+  "VersionName": "1.0.0",
+  "FriendlyName": "LensCap VisualTransceiver module",
+  "Description": "Support for LensCap split-process interprocess communication",
+  "Category": "LensCap",
+  "CreatedBy": "Jinhan Hu",
+  "CreatedByURL": "https://meteor.ame.asu.edu/",
+  "CanContainContent": true,
+  "IsBetaVersion": false,
+  "EnabledByDefault": false,
+  "Modules": [
+    {
+      "Name": "VisualTransceiver",
+      "Type": "Runtime",
+      "LoadingPhase": "Default",
+      "WhitelistPlatforms": [ "Win64", "Win32", "Mac", "Linux", "Android", "IOS" ]
+    }
+  ]
+}

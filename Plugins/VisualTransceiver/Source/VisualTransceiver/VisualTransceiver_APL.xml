@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--GearVR plugin additions-->
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- init section is always evaluated once per architecture -->
+	<trace enable="true"/>
+	<init>
+		<log text="VisualTransceiver init"/>		
+	</init>
+  <resourceCopies>
+    <log text="Copying LensCap_VisualTransceiver_Library directory"/>
+    <copyDir src="$S(EngineDir)/Source/ThirdParty/LensCap/VisualTransceiver"
+					dst="$S(BuildDir)/gradle/VisualTransceiver" />
+	<log text="Copying apps-networks directory"/>
+    <copyDir src="$S(EngineDir)/Source/ThirdParty/LensCap/app-networks"
+					dst="$S(BuildDir)/gradle/app-networks" />
+	<log text="Copying SharedMemLib directory"/>
+    <copyDir src="$S(EngineDir)/Source/ThirdParty/LensCap/SharedMemLib"
+					dst="$S(BuildDir)/gradle/SharedMemLib" />
+  </resourceCopies>
+
+  <androidManifestUpdates>
+    <addElements tag="application">
+	  
+	  <activity android:name="com.meteor.LensCapAPI.VisualTransceiverActivity"
+          android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+          android:label="@string/app_name" />
+		  
+    </addElements>
+	<addElements tag="manifest">
+		  <uses-permission android:name="edu.ame.asu.meteor.lenscap.TRANSCEIVE" />
+	</addElements>
+  </androidManifestUpdates>
+
+<!-- <buildGradleAdditions>
+	<insert>
+		dependencies {implementation project(path: ':VisualTransceiver')}
+	</insert>
+</buildGradleAdditions> -->
+  <!-- optional additions to proguard -->
+  <proguardAdditions>
+    <insert><![CDATA[
+      -keepattributes Signature
+      -dontskipnonpubliclibraryclassmembers
+
+     -keepclassmembers class com.epicgames.ue4.GameActivity {
+            public <methods>;
+            public <fields>;
+     }
+    ]]></insert>
+  </proguardAdditions>
+
+  <resourceCopies>
+    <!-- Copy the generated resource file to be packaged -->
+  </resourceCopies>
+
+  <AARImports>
+  </AARImports>
+  
+  <!-- optional additions to the GameActivity imports in GameActivity.java -->
+	<gameActivityImportAdditions>
+	  <insert>
+	  	import java.io.UnsupportedEncodingException;
+	    <!-- import edu.ame.asu.meteor.lenscap.visualtransceiver.VisualLensCapTransceiver; -->
+		import java.util.HashSet;
+		import java.util.Arrays;
+		import android.text.TextUtils;
+		import android.graphics.BitmapFactory; 
+		import android.os.Handler; 
+		import android.widget.Toast;
+    	import android.util.Log;
+    </insert>
+	</gameActivityImportAdditions>
+	
+
+	<!-- optional additions to the GameActivity class in GameActivity.java -->
+	<gameActivityClassAdditions>
+		<insert>
+		<![CDATA[
+
+		/** Used for Lenscap*/
+		public float AndriodtoUEdata;
+		public float[] cameraPoseA_UE = new float[3];
+		private byte[] bytes;
+		private byte[] forTestBytes;
+		long touch_start_time;
+		List<Long> nb_end_frame = new ArrayList<>();
+		//private VisualLensCapTransceiver lensCap;
+
+		public void AndroidThunkJava_VisualTransceiverSendArrayFloat(Float[] bytesToSend, String TagReceived) throws IOException {
+
+		if (TagReceived.split("_")[1].equals("cameraPose")) {
+			forTestBytes = Arrays.toString(bytesToSend).getBytes();
+			//lensCap.send("cameraPose", forTestBytes);
+		} else if (TagReceived.split("_")[1].equals("pointCloud")) {
+			forTestBytes = Arrays.toString(bytesToSend).getBytes();
+			//lensCap.send("pointCloud",forTestBytes);
+		} else if (TagReceived.split("_")[1].equals("lightEstimation")) {
+			forTestBytes = Arrays.toString(bytesToSend).getBytes();
+			//lensCap.send("lightEstimation",forTestBytes);
+		} else if (TagReceived.split("_")[1].equals("face")) {
+			forTestBytes = Arrays.toString(bytesToSend).getBytes();
+			//lensCap.send("face", forTestBytes);
+		} else {
+			Log.debug("LensCap VisualTransceiver Send Tag Not Tracked");
+		}
+
+	}
+
+	public void AndroidThunkJava_LensCapWriteFPS(Float[] bytesToSend) throws IOException {
+		FileWriter writer = new FileWriter("/storage/emulated/0/" + "FPS_lenscap.txt");
+		for (int i=1; i<bytesToSend.length; i++){
+			writer.write(bytesToSend[i] + "\n");
+		}
+		writer.close();
+		Log.debug("LensCap1 VisualTransceiver Write Latency FPS Successfully");
+	}
+
+	public void AndroidThunkJava_VisualTransceiverSendArrayInt(Integer[] bytesToSend, String TagReceived) {
+		Log.debug("LensCap VisualTransceiver Send Int"+ Arrays.toString(bytesToSend) + " with Tag " + TagReceived);
+	}
+	public void AndroidThunkJava_VisualTransceiverSendArrayString(String[] bytesToSend, String TagReceived) throws IOException {
+		long currentTimer;
+		currentTimer = System.nanoTime();
+		SimpleDateFormat ft = new SimpleDateFormat ("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
+		if (TagReceived.split("_")[1].equals("cameraFrame")) {
+			forTestBytes = ("cameraFrame|" + currentTimer + "|" + Arrays.toString(bytesToSend)).getBytes();
+			//lensCap.send("cameraFrame", forTestBytes);
+		} else if (TagReceived.split("_")[1].equals("face")) {
+			forTestBytes = ("face|" + currentTimer + "|" + Arrays.toString(bytesToSend)).getBytes();
+			//lensCap.send("face", forTestBytes);
+		} else {
+			Log.debug("LensCap VisualTransceiver Send Tag Not Tracked");
+		}
+	}
+
+	public void AndroidThunkJava_VisualTransceiverReceive(String[] bytesToReceive) {
+		Log.debug("LensCap VisualTransceiver Receive"+ Arrays.toString(bytesToReceive));
+	}
+
+	public float[] AndroidThunkJava_VisualTransceiverReceiveArrayFloat() {
+		Log.debug("LensCap VisualTransceiver Receive Array Float");
+		return cameraPoseA_UE;
+	}
+
+	public float AndroidThunkJava_VisualTransceiverReceiveFloat() {
+		Log.debug("LensCap VisualTransceiver Receive Float");
+		return AndriodtoUEdata;
+	}
+
+	public void AndroidThunkJava_GetLensCapCountAndroid(Integer[] bytesToSend) throws UnsupportedEncodingException {
+	}
+	public boolean AndroidThunkJava_LensCapCheckPermission(String Tag){
+		//Log.debug("LensCap1 AndroidThunkJava_LensCapCheckPermission " + Tag +  " = "+ lensCap.getLensCapPermissionInfo().getPermTag(Tag));
+		return true;//lensCap.getLensCapPermissionInfo().getPermTag(Tag);
+	}
+
+	public void startLensCap()
+	{
+		/*
+		lensCap = new VisualLensCapTransceiver(getApplicationContext());
+		lensCap.registerReceiver(new VisualLensCapTransceiver.Receiver<byte[]>() {
+			@Override
+			public void onReceived(final String identifier, final byte[] data) {
+				GameActivity.this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						String cha = new String(data);
+						Log.debug("Lenscap1 Visual Process Received: " + identifier);
+						if(identifier.equals("TouchCoords") && cha.charAt(cha.indexOf('|')-1)=='D')
+						{
+							TouchInfoX=Float.parseFloat(cha.substring(1,cha.indexOf('y')))- 715;;
+							TouchInfoY=Float.parseFloat(cha.substring(cha.indexOf('y')+1,cha.indexOf('|')-1))/2-60;
+							isTouch = true;
+						}
+					}
+				});
+			}
+		});
+		*/
+	}
+		]]>
+		</insert>
+	</gameActivityClassAdditions>
+	
+	<!-- optional additions to GameActivity onCreate metadata reading in GameActivity.java -->
+	<gameActivityReadMetadataAdditions>
+	<insert>
+
+  </insert>
+	</gameActivityReadMetadataAdditions>
+	
+	<!-- optional additions to GameActivity onCreate in GameActivity.java -->
+	<gameActivityOnCreateAdditions>
+		<insert>
+		<![CDATA[
+		]]>
+		</insert>
+	</gameActivityOnCreateAdditions>
+
+	<!-- optional additions to GameActivity onDestroy in GameActivity.java -->
+	<gameActivityOnDestroyAdditions>
+		<insert>
+		
+		</insert>
+	</gameActivityOnDestroyAdditions>
+	
+	
+	<!-- optional additions to GameActivity onStart in GameActivity.java -->
+	<gameActivityOnStartAdditions>
+		<insert>
+		
+		</insert>
+	</gameActivityOnStartAdditions>
+
+	<!-- optional additions to GameActivity onStop in GameActivity.java -->
+	<gameActivityOnStopAdditions>
+		<insert>
+		
+		</insert>
+	</gameActivityOnStopAdditions>
+	
+
+	<!-- optional additions to GameActivity onPause in GameActivity.java	-->
+	<gameActivityOnPauseAdditions>
+    <insert>
+    <![CDATA[
+    ]]>
+    </insert>
+  </gameActivityOnPauseAdditions>
+
+
+  <!-- optional additions to GameActivity onResume in GameActivity.java	-->
+  <gameActivityOnResumeAdditions>
+    <insert>
+	    <![CDATA[
+		startLensCap();
+    ]]>
+    </insert>
+  </gameActivityOnResumeAdditions>
+
+
+	<!-- optional additions to GameActivity onActivityResult in GameActivity.java -->
+	<gameActivityOnActivityResultAdditions>
+		<insert>
+		</insert>
+    </gameActivityOnActivityResultAdditions>
+	
+
+	<!-- optional libraries to load in GameActivity.java before libUE4.so -->
+	<soLoadLibrary>
+		<!-- need this if plugin enabled and supported architecture, even if not packaged for GearVR -->
+	</soLoadLibrary>
+</root>
