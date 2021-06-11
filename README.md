@@ -123,5 +123,5 @@ Launching the application with LensCap also requires some additional steps:
 2. Then the network process (app-networks) can be launched, and the start AR button can be pressed on it to begin your LensCap experience
 3. The overlay of the network process can be dismissed at any time by pressing the back key on the device.
 ## Revision History
-6/6/2021- Added Initial source code
-6/11/2021- Added additional NDK information and cleaned up naming conventions
+* 6/6/2021- Added Initial source code
+* 6/11/2021- Added additional NDK information and cleaned up naming conventions
