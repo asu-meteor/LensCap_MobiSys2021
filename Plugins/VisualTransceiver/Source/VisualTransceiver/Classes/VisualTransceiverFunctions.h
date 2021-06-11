@@ -68,7 +68,7 @@ public:
 	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap_GoogleARCore_CameraPose", HidePin = "LastPose"), Category = "LensCap|Send")
 	static void VT_Send_Camera_Pose(FTransform& LastPose);
 	
-	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "GoogleARCore_Collect Face", HidePin = "OutAugmentedFaceList"), Category = "LensCap|Send")
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap_GoogleARCore_Collect Face", HidePin = "OutAugmentedFaceList"), Category = "LensCap|Send")
 	static void VT_Send_Face(TArray<UGoogleARCoreAugmentedFace*>& OutAugmentedFaceList);
 
 	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send Point Cloud", HidePin = "OutLatestPointCloud"), Category = "LensCap|Send")
@@ -80,7 +80,7 @@ public:
 	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send Light Estimation", HidePin = "LightEstimation"), Category = "LensCap|Send")
 	static void VT_Send_Light_Estimation(FGoogleARCoreLightEstimate& LightEstimation);
 
-	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "GoogleARCore_Collect CameraFrame", HidePin = "LastPose"), Category = "LensCap|Send")
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap_GoogleARCore_Collect CameraFrame", HidePin = "LastPose"), Category = "LensCap|Send")
 	static void VT_Send_Camera_Frame(FTransform& LastPose);
 
 	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap GetLensCapCount"), Category = "LensCap|Monitor")
