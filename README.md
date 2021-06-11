@@ -24,7 +24,7 @@ This Project contains all the necessary source code to create a split-process (L
 * Android Requirements:
   * Android Studio v3.6.1
   * SDK Android 9.0 (Pie)
-  * NDK r14b (download for appropraite architecture can be found [here](https://developer.android.com/ndk/downloads/older_releases))
+  * NDK r14b (it can be installed via CodeWorks, instructions on how to install it are availavble [here](https://docs.unrealengine.com/4.26/en-US/SharingAndReleasing/Mobile/Android/InstallingAndroidCodeWorksAndroid/))
 ## Configure Unreal
 In order to get the LensCap plugin to correctly build in Unreal Engine, some modifications and additions must be made to the source code of the Engine itself. Creating a new project with the LensCap plugins also requires additional steps.
 ### 1.1 Setup LensCap source files in Unreal
