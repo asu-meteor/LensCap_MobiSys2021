@@ -24,7 +24,7 @@ This Project contains all the necessary source code to create a split-process (L
 * Android Requirements:
   * Android Studio v3.6.1
   * SDK Android 9.0 (Pie)
-  * NDK r14b
+  * NDK r14b (download for appropraite architecture can be found [here](https://developer.android.com/ndk/downloads/older_releases))
 ## Configure Unreal
 In order to get the LensCap plugin to correctly build in Unreal Engine, some modifications and additions must be made to the source code of the Engine itself. Creating a new project with the LensCap plugins also requires additional steps.
 ### 1.1 Setup LensCap source files in Unreal
@@ -37,12 +37,13 @@ There are a few additional steps in building an Unreal Engine project with LensC
 3. In the options switch build for Desktop/Console to Mobile/Tablet and create the project
 4. Close the project, and navigate to its source code, in its main folder copy the [Plugins](/Plugins) folder found in this repo.
 5. Open the project in Unreal Engine again, under settings->plugins->Project(at very bottom of left-hand-side) enable the two plugins *LensCap Network Transceiver module* and *Lenscap VisualTransceiver module*, **Do Not Press Restart afterwards**, just close the settings window when done.
-6. Create an empty C++ class, File->New C++ class-> none. The name you give it does not matter.
-7. Also under file, click on *Refresh Visual Studio Project* or *Generate Visual Studio Project* if the latter is not available
-8. Close Unreal Engine and open up the project's visual studio solution
-9. Then under solution explorer right-click your project select Project Only->Build only [Your Project Name]
-10. Once it has built, open up the project in Unreal Engine and launch it to the desired device.
-11. The application will then launch on the device
+6. Under Settings-> Project Settings-> Platforms -> Android SDK, ensure that the *Location of Android NDK* is pointing to the r14b NDK required and that the *NDK API Level* is set as *android-19*.
+7. Create an empty C++ class, File->New C++ class-> none. The name you give it does not matter.
+8. Also under file, click on *Refresh Visual Studio Project* or *Generate Visual Studio Project* if the latter is not available
+9. Close Unreal Engine and open up the project's visual studio solution
+10. Then under solution explorer right-click your project select Project Only->Build only [Your Project Name]
+11. Once it has built, open up the project in Unreal Engine and launch it to the desired device.
+12. The application will then launch on the device
 ## Configure Android
 In order to enable LensCap functionality the Android source code needs some changes to it, and therfore must be edited, the easiest way to do this is through Android Studio and the following instructions assume that Android Studiois being used and that the Unreal Project has already been created and built.
 ### 1.1 Opening Android project
@@ -97,7 +98,7 @@ task clean(type: Delete) {
 ```
 5. In the **apps** build.gradle the following dependency should be added:
 ```
-{implementation project(path: ':VisualTransceiver')}
+implementation project(path: ':VisualTransceiver')
 ```
 6. In the apps gameactivity.java (found under gradle->app->src->main->java->com->epicgames.ue4) add the following to its imports:
 ```
@@ -108,7 +109,7 @@ import edu.ame.asu.meteor.lenscap.visualtransceiver.VisualLensCapTransceiver;
    * StartLensCap() (line: 637-657)
 8. In line 540 the **networks** gameactivity (found under gradle->app-network->src->main->java->com->epicgames.ue4) the old package name has to be replaced with the package name of your new project:
 ```
-val launchIntent = packageManager.getLaunchIntentForPackage("com.meteor.ARtest_2"
+val launchIntent = packageManager.getLaunchIntentForPackage("com.meteor.ARtest_2")
 ```
 *com.meteor.ARtest_2* should be replaced with own package name
 9. In line 88 of the NetworkTransceiver's transmitter service (found under gradle->NetworkTransciever->main->java.edu.ame.asu.meteor.lenscap->networktransceiver) the old package name has to be replaced with the package name of your new project:
@@ -123,3 +124,4 @@ Launching the application with LensCap also requires some additional steps:
 3. The overlay of the network process can be dismissed at any time by pressing the back key on the device.
 ## Revision History
 6/6/2021- Added Initial source code
+6/11/2021- Added additional NDK information and cleaned up naming conventions
