@@ -150,7 +150,7 @@ Total 35 functions in ARCore
 9. EGoogleARCoreFunctionStatus UGoogleARCoreFrameFunctionLibrary::GetPointCloud(UGoogleARCorePointCloud*& OutLatestPointCloud)
    - Already implemented from before
 10. EGoogleARCoreFunctionStatus UGoogleARCoreFrameFunctionLibrary::AcquireCameraImage(UGoogleARCoreCameraImage *&OutLatestCameraImage)
-    - Already implemented from before
+   - Already implemented from before
 11. EGoogleARCoreTrackingState UGoogleARCoreFrameFunctionLibrary::GetTrackingState()
    - Returns: Int array=[enum of teacking state]
 12. EGoogleARCoreFunctionStatus UGoogleARCoreFrameFunctionLibrary::GetCameraImageIntrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics)
