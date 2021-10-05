@@ -45,7 +45,8 @@ There are a few additional steps in building an Unreal Engine project with LensC
 9. Close Unreal Engine and open up the project's visual studio solution
 10. Then under solution explorer right-click your project select Project Only->Build only [Your Project Name]
 11. Once it has built, open up the project in Unreal Engine and launch it to the desired device.
-12. The application will then launch on the device
+12. Copy and paste the BP_DebugMenu.uasset, to replace the current one in your project's folder under Content\HandheldARBP\Blueprints\UI.
+13. The application will then launch on the device
 ## Configure Android
 In order to enable LensCap functionality the Android source code needs some changes to it, and therfore must be edited, the easiest way to do this is through Android Studio and the following instructions assume that Android Studiois being used and that the Unreal Project has already been created and built.
 ### 1.1 Opening Android project
