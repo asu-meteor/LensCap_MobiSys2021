@@ -125,3 +125,4 @@ Launching the application with LensCap also requires some additional steps:
 ## Revision History
 * 6/6/2021- Added Initial source code
 * 6/11/2021- Added additional NDK information and cleaned up naming conventions
+* 10/5/2021- Created test branch with updated version of project
