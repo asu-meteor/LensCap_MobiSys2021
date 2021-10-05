@@ -95,4 +95,38 @@ public:
 	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Write FPS"), Category = "LensCap|Evaluation")
 	static void LensCapWriteFPS(const TArray<float>& dataToSend);
 
+	//Andrei-added functs
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send PassthroughCameraImageUV"), Category = "LensCap|Send")
+	static void VT_Send_PassthroughCameraImageUV(TArray<float>& InUV, TArray<float>& OutUV);
+
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send AllPlanes"), Category = "LensCap|Send")
+	static void VT_Send_AllPlanes(TArray<UARPlaneGeometry*>& OutPlaneList);
+
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send trackablePoints"), Category = "LensCap|Send")
+	static void VT_Send_TrackablePoints(TArray<UARTrackedPoint*>& OutTrackablePointList);
+	
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap_GoogleARCore_Collect Image", HidePin = "OutAugmentedFaceList"), Category = "LensCap|Send")
+	static void VT_Send_Image(TArray<UGoogleARCoreAugmentedImage*>& OutAugmentedImages);
+
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send ARCoreCameraconfig"), Category = "LensCap|Send")
+	static bool VT_Send_ARCoreCameraconfig(FGoogleARCoreCameraConfig& OutCurrentCameraConfig);
+
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send ARCoreTrackingState"), Category = "LensCap|Send")
+	static EGoogleARCoreTrackingState VT_Send_ARCoreTrackingState();
+
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send cameratexture"), Category = "LensCap|Send")
+	static UTexture* VT_Send_sendCameraTexture();
+
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send ArCoreLineTrace"), Category = "LensCap|Send")
+	static bool VT_Send_sendARCoreLineTrace(UObject* WorldContextObject, const FVector2D& ScreenPosition, TSet<EGoogleARCoreLineTraceChannel> TraceChannels, TArray<FARTraceResult>& OutHitResults);
+
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send cameraimage intrinsics"), Category = "LensCap|Send")
+	static EGoogleARCoreFunctionStatus VT_Send_sendcameraimageintrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics);
+
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send cameratexture intrinsics"), Category = "LensCap|Send")
+	static EGoogleARCoreFunctionStatus VT_Send_sendcameratextureintrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics);
+
+	UFUNCTION(BlueprintCallable, meta = (Keywords = "LensCap", DisplayName = "LensCap Send TransformARCoordinates2D"), Category = "LensCap|Send")
+	static void VT_Send_sendTransformARCoordinates2D(EGoogleARCoreCoordinates2DType InputCoordinatesType, const TArray<FVector2D>& InputCoordinates, EGoogleARCoreCoordinates2DType OutputCoordinatesType, TArray<FVector2D>& OutputCoordinates);
 };
+

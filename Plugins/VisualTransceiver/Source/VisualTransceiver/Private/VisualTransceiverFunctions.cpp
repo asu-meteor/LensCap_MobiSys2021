@@ -62,9 +62,21 @@ FLensCapType lens;
 FRSA fsra;
 static const int SobelThreshold = 128 * 128;
 TArray<float> lenscap_face_data;
+TArray<float> lenscap_image_data;
 TArray<float> lenscap_pose_data;
 TArray<float> lenscap_pointCloud_data;
 TArray<float> lenscap_light_data;
+TArray<float> lenscap_PassthroughCameraImageUV_data;
+TArray<float> lenscap_planes_data;
+TArray<float> lenscap_points_data;
+TArray<int32> lenscap_trackingstate_data;
+TArray<int32> lenscap_cameraimageintrinsics_data;
+TArray<int32> lenscap_cameratextureintrinsics_data;
+TArray<float> lenscap_transformarcoordinates2d;
+
+bool lenscap_cameraconfig;
+bool lenscap_linetrace;
+
 
 void UVisualTransceiverFunctions::VisualTransceiverSendArrayFloat(const TArray<float>& dataToSend, const FString& TagValue)
 {
@@ -305,6 +317,315 @@ TArray<float> UVisualTransceiverFunctions::VisualTransceiverReceiveArrayFloat()
 	}
 #endif
 	return result;
+}
+//Andrei-added functs
+void UVisualTransceiverFunctions::VT_Send_sendTransformARCoordinates2D(EGoogleARCoreCoordinates2DType InputCoordinatesType, const TArray<FVector2D>& InputCoordinates, EGoogleARCoreCoordinates2DType OutputCoordinatesType, TArray<FVector2D>& OutputCoordinates)
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_TransformARCoordinates2D"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		UGoogleARCoreFrameFunctionLibrary::TransformARCoordinates2D(InputCoordinatesType, InputCoordinates, OutputCoordinatesType, OutputCoordinates);
+		TArray<float> dataToSend= { (float)InputCoordinatesType,(float)OutputCoordinatesType};
+		for (int i = 0; i < InputCoordinates.Num(); i++)
+		{
+			dataToSend.Append({InputCoordinates[i].X, InputCoordinates[i].Y});
+		}
+		for (int i = 0; i < OutputCoordinates.Num(); i++)
+		{
+			dataToSend.Append({ OutputCoordinates[i].X, OutputCoordinates[i].Y });
+		}
+		for (int k = 0; k < dataToSend.Num(); k++)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("sendtransformarcoordinates2d data ,%f"), dataToSend[k]);
+		}
+		VisualTransceiverSendArrayFloat(dataToSend, extraTag);
+		TArray<int32> Result;
+		lenscap_transformarcoordinates2d=dataToSend;
+		GetLensCapCountAndroid(Result);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_cameraimageintrinsics Needs Permission!!"));
+	}
+}
+EGoogleARCoreFunctionStatus UVisualTransceiverFunctions::VT_Send_sendcameratextureintrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics)
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_cameratextureintrinsics"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		TArray<int32> intdataToSend = { (int32)UGoogleARCoreFrameFunctionLibrary::GetCameraTextureIntrinsics(OutCameraIntrinsics) };
+		UE_LOG(LogTemp, Warning, TEXT("cameratexture intrinsics state data ,%i"), UGoogleARCoreFrameFunctionLibrary::GetCameraTextureIntrinsics(OutCameraIntrinsics));
+		lenscap_cameratextureintrinsics_data = intdataToSend;
+		VisualTransceiverSendArrayInt(intdataToSend, extraTag);
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_cameratextureintrinsics Needs Permission!!"));
+	}
+	return UGoogleARCoreFrameFunctionLibrary::GetCameraTextureIntrinsics(OutCameraIntrinsics);
+}
+EGoogleARCoreFunctionStatus UVisualTransceiverFunctions::VT_Send_sendcameraimageintrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics)
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_cameraimageintrinsics"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		TArray<int32> intdataToSend = { (int32)UGoogleARCoreFrameFunctionLibrary::GetCameraImageIntrinsics(OutCameraIntrinsics) };
+		UE_LOG(LogTemp, Warning, TEXT("cameraimage intrinsics state data ,%i"), UGoogleARCoreFrameFunctionLibrary::GetCameraImageIntrinsics(OutCameraIntrinsics));
+		VisualTransceiverSendArrayInt(intdataToSend, extraTag);
+		lenscap_cameraimageintrinsics_data = intdataToSend;
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_cameraimageintrinsics Needs Permission!!"));
+	}
+	return UGoogleARCoreFrameFunctionLibrary::GetCameraImageIntrinsics(OutCameraIntrinsics);
+}
+bool UVisualTransceiverFunctions::VT_Send_sendARCoreLineTrace(UObject* WorldContextObject, const FVector2D& ScreenPosition, TSet<EGoogleARCoreLineTraceChannel> TraceChannels, TArray<FARTraceResult>& OutHitResults)
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_linetrace"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		bool Res = UGoogleARCoreFrameFunctionLibrary::ARCoreLineTrace(WorldContextObject,ScreenPosition,TraceChannels,OutHitResults);
+		lenscap_linetrace = Res;
+		TArray<FString> stringdataToSend;
+		if (Res)
+		{
+			stringdataToSend = { "True" };
+		}
+		else
+		{
+			stringdataToSend = { "False" };
+		}
+		VisualTransceiverSendArrayString(stringdataToSend, extraTag);
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+		return Res;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_ARCoreLineTrace Needs Permission!!"));
+	}
+	return false;
+}
+UTexture* UVisualTransceiverFunctions::VT_Send_sendCameraTexture()
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_cameratexture"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		UE_LOG(LogTemp, Warning, TEXT("camera texture data ,%f"), UGoogleARCoreFrameFunctionLibrary::GetCameraTexture()->);
+		//TArray<float> dataToSend = {UGoogleARCoreFrameFunctionLibrary::GetCameraTexture()};
+		//VisualTransceiverSendArrayFloat(dataToSend, extraTag);
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_cameratexture Needs Permission!!"));
+	}
+	return UGoogleARCoreFrameFunctionLibrary::GetCameraTexture();
+}
+EGoogleARCoreTrackingState UVisualTransceiverFunctions::VT_Send_ARCoreTrackingState()
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_trackingstate"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+	TArray<int32> intdataToSend = {(int32)UGoogleARCoreFrameFunctionLibrary::GetTrackingState()};
+	UE_LOG(LogTemp, Warning, TEXT("tracking state data ,%i"), UGoogleARCoreFrameFunctionLibrary::GetTrackingState());
+	lenscap_trackingstate_data =intdataToSend;
+	VisualTransceiverSendArrayInt(intdataToSend, extraTag);
+	TArray<int32> Result;
+	GetLensCapCountAndroid(Result);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_ARCoreTrackingState Needs Permission!!"));
+	}
+	return UGoogleARCoreFrameFunctionLibrary::GetTrackingState();
+}
+bool UVisualTransceiverFunctions::VT_Send_ARCoreCameraconfig(FGoogleARCoreCameraConfig& OutCurrentCameraConfig)
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_cameraconfig"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		bool Res=UGoogleARCoreSessionFunctionLibrary::GetARCoreCameraConfig(OutCurrentCameraConfig);
+		lenscap_cameraconfig = Res;
+		TArray<FString> stringdataToSend;
+		if (Res)
+		{
+			stringdataToSend = { "True" };
+		}
+		else
+		{
+			stringdataToSend = { "False" };
+		}
+		VisualTransceiverSendArrayString(stringdataToSend, extraTag);
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+		return Res;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_cameraconfig Needs Permission!!"));
+	}
+	return false;
+}
+void UVisualTransceiverFunctions::VT_Send_Image(TArray<UGoogleARCoreAugmentedImage*>& OutAugmentedImageList) {
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_image"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		//lens.LensCap_face = lens.LensCap_face + 1;
+		UGoogleARCoreSessionFunctionLibrary::GetAllAugmentedImages(OutAugmentedImageList);
+		TArray<float> dataToSend;
+		for (int32 i = 0; i < OutAugmentedImageList.Num(); i++)
+		{
+			FVector imageA = OutAugmentedImageList[i]->GetExtent();
+			dataToSend.Append({imageA.X,imageA.Y,imageA.Z});
+		}
+		lenscap_image_data = dataToSend;
+		VisualTransceiverSendArrayFloat(dataToSend, extraTag);
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+		for (int k = 0; k < dataToSend.Num(); k++)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("image data ,%f"), dataToSend[k]);
+		}
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_Face Needs Permission!!"));
+	}
+}
+void UVisualTransceiverFunctions::VT_Send_TrackablePoints(TArray<UARTrackedPoint*>& OutTrackablePointList)
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_points"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		UGoogleARCoreSessionFunctionLibrary::GetAllTrackablePoints(OutTrackablePointList);
+		TArray<float> dataToSend;
+		for(int i=0; i < OutTrackablePointList.Num(); i++)
+		{
+			FTransform pointA = OutTrackablePointList[i]->GetLocalToTrackingTransform();
+			TArray<float> internalA = { pointA.GetLocation().X, pointA.GetLocation().Y, pointA.GetLocation().Z,
+				pointA.GetRotation().X, pointA.GetRotation().Y, pointA.GetRotation().Z, pointA.GetRotation().W,
+				pointA.GetScale3D().X, pointA.GetScale3D().Y, pointA.GetScale3D().Z };
+			dataToSend.Append(internalA);
+		}
+		lenscap_points_data = dataToSend;
+		VisualTransceiverSendArrayFloat(dataToSend, extraTag);
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+		for (int k = 0; k < dataToSend.Num(); k++)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Trackable points,%f"), dataToSend[k]);
+		}
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_TrackablePoints Needs Permission!!"));
+	}
+}
+void UVisualTransceiverFunctions::VT_Send_AllPlanes(TArray<UARPlaneGeometry*>& OutPlaneList)
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_plane"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		UGoogleARCoreSessionFunctionLibrary::GetAllPlanes(OutPlaneList);
+		TArray<float> dataToSend;
+		for(int i=0; i < OutPlaneList.Num(); i++)
+		{
+			FVector planeA = OutPlaneList[i]->GetCenter();
+			FVector planeB = OutPlaneList[i]->GetExtent();
+			dataToSend.Append({planeA.X,planeA.Y,planeA.Z,planeB.X,planeB.Y,planeB.Z});
+			for(int j=0;j<OutPlaneList[i]->GetBoundaryPolygonInLocalSpace().Num();j++)
+			{
+				FVector planeC = OutPlaneList[i]->GetBoundaryPolygonInLocalSpace()[j];
+				dataToSend.Append({planeC.X,planeC.Y,planeC.Z});
+			}
+		}
+		lenscap_planes_data = dataToSend;
+		VisualTransceiverSendArrayFloat(dataToSend, extraTag);
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+		for (int k = 0; k < dataToSend.Num(); k++)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Plane data ,%f"), dataToSend[k]);
+		}
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_AllPlanes Needs Permission!!"));
+	}
+}
+void UVisualTransceiverFunctions::VT_Send_PassthroughCameraImageUV(TArray<float>& InUV, TArray<float>& OutUV)
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_passthrough"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		UGoogleARCoreSessionFunctionLibrary::GetPassthroughCameraImageUV(InUV, OutUV);
+		TArray<float> dataToSend;
+		dataToSend.Append(InUV);
+		dataToSend.Append(OutUV);
+		lenscap_PassthroughCameraImageUV_data = dataToSend;
+		VisualTransceiverSendArrayFloat(dataToSend, extraTag);
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+		for (int k = 0; k < dataToSend.Num(); k++)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("pass through camera,%f"), dataToSend[k]);
+		}
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_PassthroughCameraImageUV Needs Permission!!"));
+	}
 }
 
 void UVisualTransceiverFunctions::VT_Send_Camera_Pose(FTransform& LastPose) {
