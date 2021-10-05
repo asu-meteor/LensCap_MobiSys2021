@@ -3,30 +3,30 @@ Total 35 functions in .h,
 Done:
 
 1. 2void UGoogleARCoreSessionFunctionLibrary::GetPassthroughCameraImageUV(const TArray<float>& InUV, TArray<float>& OutUV)
-  - Returns: Float array=[InUv,OutUv]
+   - Returns: Float array=[InUv,OutUv]
 2. void UGoogleARCoreSessionFunctionLibrary::GetAllPlanes(TArray<UARPlaneGeometry*>& OutPlaneList)
-  - Returns: Float array=[planeCenter,PlaneExtent,boundrypolygoninlocalspace] for each plane
+   - Returns: Float array=[planeCenter,PlaneExtent,boundrypolygoninlocalspace] for each plane
 3. 4void UGoogleARCoreSessionFunctionLibrary::GetAllTrackablePoints(TArray<UARTrackedPoint*>& OutTrackablePointList)
-  - Returns: Float array=[Xlocation,Ylocation,Zlocation,Xrotation,Yrotation,Zrotation,Xscale3d,Yscale3d,Zscale3d] for each point
+   - Returns: Float array=[Xlocation,Ylocation,Zlocation,Xrotation,Yrotation,Zrotation,Xscale3d,Yscale3d,Zscale3d] for each point
 4. 6void UGoogleARCoreSessionFunctionLibrary::GetAllAugmentedFaces(TArray<UGoogleARCoreAugmentedFace*>& OutAugmentedFaceList)
-  - Already implemented from before
+   - Already implemented from before
 5. 1bool UGoogleARCoreSessionFunctionLibrary::GetARCoreCameraConfig(FGoogleARCoreCameraConfig& OutCurrentCameraConfig)
-  - Returns: String array=[True or False]
+   - Returns: String array=[True or False]
 6. 5void UGoogleARCoreSessionFunctionLibrary::GetAllAugmentedImages(TArray<UGoogleARCoreAugmentedImage*>& OutAugmentedImageList)
-  - Returns: Float array=[Extent,X,Y,Z] for each image
+   - Returns: Float array=[Extent,X,Y,Z] for each image
 7. 10void UGoogleARCoreFrameFunctionLibrary::GetPose(FTransform& LastePose)
-  - Already implemented from before
+   - Already implemented from before
 8. 18void UGoogleARCoreFrameFunctionLibrary::GetLightEstimation(FGoogleARCoreLightEstimate& LightEstimation)
-  - Already implemented from before
+   - Already implemented from before
 9. 19EGoogleARCoreFunctionStatus UGoogleARCoreFrameFunctionLibrary::GetPointCloud(UGoogleARCorePointCloud*& OutLatestPointCloud)
-  - Already implemented from before
+   - Already implemented from before
 10. 23EGoogleARCoreFunctionStatus UGoogleARCoreFrameFunctionLibrary::AcquireCameraImage(UGoogleARCoreCameraImage *&OutLatestCameraImage)
 11. 8EGoogleARCoreTrackingState UGoogleARCoreFrameFunctionLibrary::GetTrackingState()
-  - Returns: Int array=[enum of teacking state]
+   - Returns: Int array=[enum of teacking state]
 12. 25EGoogleARCoreFunctionStatus UGoogleARCoreFrameFunctionLibrary::GetCameraImageIntrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics)
-  - Returns: Int array=[enum of cameraimageintrinsics]
-13.26EGoogleARCoreFunctionStatus UGoogleARCoreFrameFunctionLibrary::GetCameraTextureIntrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics)
-  - Returns: Int array=[enum of texture cameraimageintrinsics]
+   - Returns: Int array=[enum of cameraimageintrinsics]
+13. 26EGoogleARCoreFunctionStatus UGoogleARCoreFrameFunctionLibrary::GetCameraTextureIntrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics)
+   - Returns: Int array=[enum of texture cameraimageintrinsics]
 
 Did not implement,(either duplicate or redundant):
 
