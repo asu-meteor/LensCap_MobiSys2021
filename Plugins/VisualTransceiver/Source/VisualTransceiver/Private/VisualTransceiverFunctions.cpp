@@ -318,7 +318,29 @@ TArray<float> UVisualTransceiverFunctions::VisualTransceiverReceiveArrayFloat()
 #endif
 	return result;
 }
-//Andrei-added functs
+/*
+UTexture* UVisualTransceiverFunctions::VT_Send_sendCameraTexture()
+{
+	int32 currentMilli;
+	FDateTime currentDate = FDateTime::UtcNow();
+	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
+	FString extraTag;
+	FString Tag = FString(TEXT("LensCap_cameratexture"));
+	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
+	bool perm = LensCapCheckPermission(Tag);
+	if (perm) {
+		UE_LOG(LogTemp, Warning, TEXT("camera texture data ,%f"), UGoogleARCoreFrameFunctionLibrary::GetCameraTexture()->);
+		//TArray<float> dataToSend = {UGoogleARCoreFrameFunctionLibrary::GetCameraTexture()};
+		//VisualTransceiverSendArrayFloat(dataToSend, extraTag);
+		TArray<int32> Result;
+		GetLensCapCountAndroid(Result);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_cameratexture Needs Permission!!"));
+	}
+	return UGoogleARCoreFrameFunctionLibrary::GetCameraTexture();
+}
+*/
 void UVisualTransceiverFunctions::VT_Send_sendTransformARCoordinates2D(EGoogleARCoreCoordinates2DType InputCoordinatesType, const TArray<FVector2D>& InputCoordinates, EGoogleARCoreCoordinates2DType OutputCoordinatesType, TArray<FVector2D>& OutputCoordinates)
 {
 	int32 currentMilli;
@@ -341,7 +363,7 @@ void UVisualTransceiverFunctions::VT_Send_sendTransformARCoordinates2D(EGoogleAR
 		}
 		for (int k = 0; k < dataToSend.Num(); k++)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("sendtransformarcoordinates2d data ,%f"), dataToSend[k]);
+			UE_LOG(LogTemp, Warning, TEXT("Transform AR Coordinates2D data ,%f"), dataToSend[k]);
 		}
 		VisualTransceiverSendArrayFloat(dataToSend, extraTag);
 		TArray<int32> Result;
@@ -349,7 +371,7 @@ void UVisualTransceiverFunctions::VT_Send_sendTransformARCoordinates2D(EGoogleAR
 		GetLensCapCountAndroid(Result);
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("VT_Send_cameraimageintrinsics Needs Permission!!"));
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_sendTransformARCoordinates2D Needs Permission!!"));
 	}
 }
 EGoogleARCoreFunctionStatus UVisualTransceiverFunctions::VT_Send_sendcameratextureintrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics)
@@ -363,7 +385,7 @@ EGoogleARCoreFunctionStatus UVisualTransceiverFunctions::VT_Send_sendcameratextu
 	bool perm = LensCapCheckPermission(Tag);
 	if (perm) {
 		TArray<int32> intdataToSend = { (int32)UGoogleARCoreFrameFunctionLibrary::GetCameraTextureIntrinsics(OutCameraIntrinsics) };
-		UE_LOG(LogTemp, Warning, TEXT("cameratexture intrinsics state data ,%i"), UGoogleARCoreFrameFunctionLibrary::GetCameraTextureIntrinsics(OutCameraIntrinsics));
+		UE_LOG(LogTemp, Warning, TEXT("Camera Texture intrinsics state data ,%i"), UGoogleARCoreFrameFunctionLibrary::GetCameraTextureIntrinsics(OutCameraIntrinsics));
 		lenscap_cameratextureintrinsics_data = intdataToSend;
 		VisualTransceiverSendArrayInt(intdataToSend, extraTag);
 		TArray<int32> Result;
@@ -385,7 +407,7 @@ EGoogleARCoreFunctionStatus UVisualTransceiverFunctions::VT_Send_sendcameraimage
 	bool perm = LensCapCheckPermission(Tag);
 	if (perm) {
 		TArray<int32> intdataToSend = { (int32)UGoogleARCoreFrameFunctionLibrary::GetCameraImageIntrinsics(OutCameraIntrinsics) };
-		UE_LOG(LogTemp, Warning, TEXT("cameraimage intrinsics state data ,%i"), UGoogleARCoreFrameFunctionLibrary::GetCameraImageIntrinsics(OutCameraIntrinsics));
+		UE_LOG(LogTemp, Warning, TEXT("Camera Image Intrinsics state data ,%i"), UGoogleARCoreFrameFunctionLibrary::GetCameraImageIntrinsics(OutCameraIntrinsics));
 		VisualTransceiverSendArrayInt(intdataToSend, extraTag);
 		lenscap_cameraimageintrinsics_data = intdataToSend;
 		TArray<int32> Result;
@@ -412,10 +434,12 @@ bool UVisualTransceiverFunctions::VT_Send_sendARCoreLineTrace(UObject* WorldCont
 		if (Res)
 		{
 			stringdataToSend = { "True" };
+			UE_LOG(LogTemp, Warning, TEXT("ARCore linetrace: True"));
 		}
 		else
 		{
 			stringdataToSend = { "False" };
+			UE_LOG(LogTemp, Warning, TEXT("ARCore linetrace: False"));
 		}
 		VisualTransceiverSendArrayString(stringdataToSend, extraTag);
 		TArray<int32> Result;
@@ -426,27 +450,6 @@ bool UVisualTransceiverFunctions::VT_Send_sendARCoreLineTrace(UObject* WorldCont
 		UE_LOG(LogTemp, Warning, TEXT("VT_Send_ARCoreLineTrace Needs Permission!!"));
 	}
 	return false;
-}
-UTexture* UVisualTransceiverFunctions::VT_Send_sendCameraTexture()
-{
-	int32 currentMilli;
-	FDateTime currentDate = FDateTime::UtcNow();
-	currentMilli = 60 * 60 * 1000 * currentDate.GetHour() + 60 * 1000 * currentDate.GetMinute() + 1000 * currentDate.GetSecond() + currentDate.GetMillisecond();
-	FString extraTag;
-	FString Tag = FString(TEXT("LensCap_cameratexture"));
-	extraTag = Tag + FString(TEXT("_")) + FString::FromInt(currentMilli);
-	bool perm = LensCapCheckPermission(Tag);
-	if (perm) {
-		UE_LOG(LogTemp, Warning, TEXT("camera texture data ,%f"), UGoogleARCoreFrameFunctionLibrary::GetCameraTexture()->);
-		//TArray<float> dataToSend = {UGoogleARCoreFrameFunctionLibrary::GetCameraTexture()};
-		//VisualTransceiverSendArrayFloat(dataToSend, extraTag);
-		TArray<int32> Result;
-		GetLensCapCountAndroid(Result);
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("VT_Send_cameratexture Needs Permission!!"));
-	}
-	return UGoogleARCoreFrameFunctionLibrary::GetCameraTexture();
 }
 EGoogleARCoreTrackingState UVisualTransceiverFunctions::VT_Send_ARCoreTrackingState()
 {
@@ -459,7 +462,7 @@ EGoogleARCoreTrackingState UVisualTransceiverFunctions::VT_Send_ARCoreTrackingSt
 	bool perm = LensCapCheckPermission(Tag);
 	if (perm) {
 	TArray<int32> intdataToSend = {(int32)UGoogleARCoreFrameFunctionLibrary::GetTrackingState()};
-	UE_LOG(LogTemp, Warning, TEXT("tracking state data ,%i"), UGoogleARCoreFrameFunctionLibrary::GetTrackingState());
+	UE_LOG(LogTemp, Warning, TEXT("ARCore tracking state data ,%i"), UGoogleARCoreFrameFunctionLibrary::GetTrackingState());
 	lenscap_trackingstate_data =intdataToSend;
 	VisualTransceiverSendArrayInt(intdataToSend, extraTag);
 	TArray<int32> Result;
@@ -486,10 +489,12 @@ bool UVisualTransceiverFunctions::VT_Send_ARCoreCameraconfig(FGoogleARCoreCamera
 		if (Res)
 		{
 			stringdataToSend = { "True" };
+			UE_LOG(LogTemp, Warning, TEXT("Augmented CameraConfig data: True"));
 		}
 		else
 		{
 			stringdataToSend = { "False" };
+			UE_LOG(LogTemp, Warning, TEXT("Augmented CameraConfig data: True"));
 		}
 		VisualTransceiverSendArrayString(stringdataToSend, extraTag);
 		TArray<int32> Result;
@@ -524,11 +529,11 @@ void UVisualTransceiverFunctions::VT_Send_Image(TArray<UGoogleARCoreAugmentedIma
 		GetLensCapCountAndroid(Result);
 		for (int k = 0; k < dataToSend.Num(); k++)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("image data ,%f"), dataToSend[k]);
+			UE_LOG(LogTemp, Warning, TEXT("Augmented Image data ,%f"), dataToSend[k]);
 		}
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("VT_Send_Face Needs Permission!!"));
+		UE_LOG(LogTemp, Warning, TEXT("VT_Send_Image Needs Permission!!"));
 	}
 }
 void UVisualTransceiverFunctions::VT_Send_TrackablePoints(TArray<UARTrackedPoint*>& OutTrackablePointList)
@@ -620,14 +625,13 @@ void UVisualTransceiverFunctions::VT_Send_PassthroughCameraImageUV(TArray<float>
 		GetLensCapCountAndroid(Result);
 		for (int k = 0; k < dataToSend.Num(); k++)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("pass through camera,%f"), dataToSend[k]);
+			UE_LOG(LogTemp, Warning, TEXT("Pass through camera image UV,%f"), dataToSend[k]);
 		}
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("VT_Send_PassthroughCameraImageUV Needs Permission!!"));
 	}
 }
-
 void UVisualTransceiverFunctions::VT_Send_Camera_Pose(FTransform& LastPose) {
 	int32 currentMilli;
 	FDateTime currentDate = FDateTime::UtcNow();
@@ -662,7 +666,6 @@ void UVisualTransceiverFunctions::VT_Send_Camera_Pose(FTransform& LastPose) {
 		UE_LOG(LogTemp, Warning, TEXT("VT_Send_Camera_Pose Needs Permission!!"));
 	}
 }
-
 void UVisualTransceiverFunctions::VT_Send_Feature_Edge(FString& TempRGBABuf) {
 	int32 currentMilli;
 	FDateTime currentDate = FDateTime::UtcNow();
@@ -684,7 +687,6 @@ void UVisualTransceiverFunctions::VT_Send_Feature_Edge(FString& TempRGBABuf) {
 		UE_LOG(LogTemp, Warning, TEXT("VT_Send_Feature_Edge Needs Permission!!"));
 	}
 }
-
 void UVisualTransceiverFunctions::VT_Send_Face(TArray<UGoogleARCoreAugmentedFace*>& OutAugmentedFaceList) {
 	int32 currentMilli;
 	FDateTime currentDate = FDateTime::UtcNow();
@@ -754,7 +756,6 @@ void UVisualTransceiverFunctions::VT_Send_Face(TArray<UGoogleARCoreAugmentedFace
 		UE_LOG(LogTemp, Warning, TEXT("VT_Send_Face Needs Permission!!"));
 	}
 }
-
 void UVisualTransceiverFunctions::VT_Send_Point_Cloud(TArray<FVector>& OutLatestPointCloud) {
 	int32 currentMilli;
 	FDateTime currentDate = FDateTime::UtcNow();
@@ -781,7 +782,6 @@ void UVisualTransceiverFunctions::VT_Send_Point_Cloud(TArray<FVector>& OutLatest
 		UE_LOG(LogTemp, Warning, TEXT("VT_Send_Point_Cloud Needs Permission!!"));
 	}
 }
-
 void UVisualTransceiverFunctions::VT_Send_Light_Estimation(FGoogleARCoreLightEstimate& LightEstimation) {
 	int32 currentMilli;
 	FDateTime currentDate = FDateTime::UtcNow();
@@ -808,7 +808,6 @@ void UVisualTransceiverFunctions::VT_Send_Light_Estimation(FGoogleARCoreLightEst
 		UE_LOG(LogTemp, Warning, TEXT("VT_Send_Light_Estimation Needs Permission!!"));
 	}
 }
-
 void UVisualTransceiverFunctions::VT_Send_Camera_Frame(FTransform& LastPose) {
 	int32 currentMilli;
 	FDateTime currentDate = FDateTime::UtcNow();

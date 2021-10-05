@@ -52,6 +52,20 @@ open class VisualLensCapTransceiver(@NonNull private val context: Context){
         private var lightEstimatePerm: Boolean = cp
         private var faceFeaturePerm: Boolean = cp
         private var pointCloudPerm: Boolean = cp
+        private var imageFeaturePerm: Boolean = cp
+        private var planeFeaturePerm: Boolean = cp
+        private var pointsFeaturePerm: Boolean = cp
+        private var passthroughFeaturePerm: Boolean = cp
+        private var cameraconfigFeaturePerm: Boolean = cp
+        private var cemerageimageintrinsicsFeaturePerm: Boolean = cp
+        private var cameratextureintrinsicsFeaturePerm: Boolean = cp
+        private var tansformarcoordinates2dFeaturePerm: Boolean = cp
+        private var arcorelinetraceFeaturePerm: Boolean = cp
+        private var arcoretrackingstateFeaturePerm: Boolean = cp
+        private var cameratextureFeaturePerm: Boolean = cp
+        private var arcorecameraconfigFeaturePerm: Boolean = cp
+
+
         val ctp=ct
         val manager: NotificationManager = ct.getSystemService(NotificationManager::class.java) as NotificationManager
         fun getPermTag(tag: String): Boolean {
@@ -85,6 +99,65 @@ open class VisualLensCapTransceiver(@NonNull private val context: Context){
                     pointCloudPerm= POINT_CLOUD_PERM
                     return channel.importance != NotificationManager.IMPORTANCE_NONE
                 }
+                "image"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_IMAGE_TRACK_SERVICE)
+                    imageFeaturePerm= IMAGE_TRACKING_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "passthrough"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_PASSTHROUGH_TRACK_SERVICE)
+                    passthroughFeaturePerm = PASSTHROUGH_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "plane"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_PLANE_TRACK_SERVICE)
+                    planeFeaturePerm= PLANE_TRACKING_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "points"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_POINTS_TRACK_SERVICE)
+                    pointsFeaturePerm= POINT_TRACKING_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "cameraconfig"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_CAMERACONFIG_TRACK_SERVICE)
+                    cameraconfigFeaturePerm= CAMERACONFIG_TRACKING_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "TransformARCoordinates2D"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_TRANSFORMCOORDINATES2D_TRACK_SERVICE)
+                    tansformarcoordinates2dFeaturePerm= TRANSFORMCOORDINATES2D_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "cameraimageintrinsics"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_CAMERAIMAGEINTRINSICS_SERVICE)
+                    cemerageimageintrinsicsFeaturePerm= CAMERAIMAGEINTRINSICS_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "cameratextureintrinsics"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_CAMERATEXTUREINTRINSICS_SERVICE)
+                    cameratextureintrinsicsFeaturePerm= CAMERATEXTUREINTRINSICS_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "linetrace"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_ARCORELINETRACE_SERVICE)
+                    arcorelinetraceFeaturePerm= ARCORELINETRACE_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "trackingstate"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_ARCORETRACKINGSTATE_SERVICE)
+                    arcoretrackingstateFeaturePerm= ARCORETRACKINGSTATE_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                "cameratexture"->{
+                    val channel = manager.getNotificationChannel(CHANNEL_CAMERATEXTURE_TRACK_SERVICE)
+                    cameratextureFeaturePerm= CAMERATEXTURE_PERM
+                    return channel.importance != NotificationManager.IMPORTANCE_NONE
+                }
+                //addhere
+//                private var arcorelinetraceFeaturePerm: Boolean = cp
+//                private var arcoretrackingstateFeaturePerm: Boolean = cp
+//                private var cameratextureFeaturePerm: Boolean = cp
                 else -> false
             }
         }
@@ -227,12 +300,36 @@ open class VisualLensCapTransceiver(@NonNull private val context: Context){
         const val CHANNEL_CAMERA_FRAME_SERVICE = "CHANNEL_CAMERA_FRAME_SERVICE"
         const val CHANNEL_LIGHT_ESTIMATE_SERVICE = "CHANNEL_LIGHT_ESTIMATE_SERVICE"
         const val CHANNEL_FACE_TRACK_SERVICE = "CHANNEL_FACE_TRACK_SERVICE"
+        const val CHANNEL_IMAGE_TRACK_SERVICE = "CHANNEL_IMAGE_TRACK_SERVICE"
+        const val CHANNEL_PASSTHROUGH_TRACK_SERVICE = "CHANNEL_PASSTHROUGH_TRACK_SERVICE"
+        const val CHANNEL_PLANE_TRACK_SERVICE = "CHANNEL_PLANE_TRACK_SERVICE"
+        const val CHANNEL_POINTS_TRACK_SERVICE = "CHANNEL_POINTS_TRACK_SERVICE"
+        const val CHANNEL_CAMERACONFIG_TRACK_SERVICE = "CHANNEL_CAMERACONFIG_TRACK_SERVICE"
+
+        const val CHANNEL_CAMERAIMAGEINTRINSICS_SERVICE = "CHANNEL_CAMERAIMAGEINTRINSICS_SERVICE"
+        const val CHANNEL_CAMERATEXTUREINTRINSICS_SERVICE = "CHANNEL_CAMERATEXTUREINTRINSICS_SERVICE"
+        const val CHANNEL_TRANSFORMCOORDINATES2D_TRACK_SERVICE = "CHANNEL_ARCORELINETRACE_SERVICE"
+        const val CHANNEL_ARCORELINETRACE_SERVICE = "CHANNEL_ARCORELINETRACE_SERVICE"
+        const val CHANNEL_ARCORETRACKINGSTATE_SERVICE = "CHANNEL_ARCORETRACKINGSTATE_SERVICE"
+        const val CHANNEL_CAMERATEXTURE_TRACK_SERVICE = "CHANNEL_CAMERATEXTURE_TRACK_SERVICE"
+
         var CAMERA_POSE_PERM=false;
         var CAMERA_FRAME_PERM=false;
         var LIGHT_ESTIMATE_PERM=false;
         var POINT_CLOUD_PERM=false;
         var FACE_TRACKING_PERM=false;
-
+        var PLANE_TRACKING_PERM=false;
+        var IMAGE_TRACKING_PERM=false;
+        var PASSTHROUGH_PERM=false;
+        var POINT_TRACKING_PERM=false;
+        var CAMERACONFIG_TRACKING_PERM=false;
+        var CAMERAIMAGEINTRINSICS_PERM=false;
+        var CAMERATEXTUREINTRINSICS_PERM=false;
+        var TRANSFORMCOORDINATES2D_PERM=false;
+        var ARCORELINETRACE_PERM=false;
+        var ARCORETRACKINGSTATE_PERM=false;
+        var CAMERATEXTURE_PERM=false;
+        var ARCORECAMERACONFIG_PERM=false;
     }
 
     enum class ProcessType{
@@ -264,7 +361,7 @@ open class VisualLensCapTransceiver(@NonNull private val context: Context){
 
     init {
         //when(TYPE){
-         //   ProcessType.TYPE_NETWORK ->{
+        //   ProcessType.TYPE_NETWORK ->{
         createNotificationChannels()
 
 
@@ -353,7 +450,7 @@ open class VisualLensCapTransceiver(@NonNull private val context: Context){
             //   }else->{
             // check that permissions are correct
             //throw PermissionConfigurationException()
-            }
+        }
         //}
         //}
         //Log.e("chips","chips")
@@ -406,8 +503,8 @@ open class VisualLensCapTransceiver(@NonNull private val context: Context){
             //val dataToValidate = (shortened.split(",").map{it.toFloat()}).toFloatArray()
             val currentTimer1: Long = System.nanoTime()
             //if (nativeValidateVisualTransceiverFloatData(identifier,shortened)){
-                //Log.d("lenscap1 check data cost nano: ", identifier + " " + (System.nanoTime() - currentTimer1).toString())
-                transmitterService?.send(identifier,content)
+            //Log.d("lenscap1 check data cost nano: ", identifier + " " + (System.nanoTime() - currentTimer1).toString())
+            transmitterService?.send(identifier,content)
             //}
         }
     }
@@ -428,7 +525,7 @@ open class VisualLensCapTransceiver(@NonNull private val context: Context){
     }
 
 
-     fun createNotificationChannels(){
+    fun createNotificationChannels(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val btChannel = NotificationChannel(
                     CHANNEL_VISUAL_SERVICE,
