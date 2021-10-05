@@ -130,7 +130,7 @@ Launching the application with LensCap also requires some additional steps:
 * 10/5/2021- Created test branch with updated project
 ## Development Notes
 Total 35 functions in ARCore
-###Done:
+### Done:
 1. void UGoogleARCoreSessionFunctionLibrary::GetPassthroughCameraImageUV(const TArray<float>& InUV, TArray<float>& OutUV)
    - Returns: Float array=[InUv,OutUv]
 2. void UGoogleARCoreSessionFunctionLibrary::GetAllPlanes(TArray<UARPlaneGeometry*>& OutPlaneList)
@@ -158,7 +158,7 @@ Total 35 functions in ARCore
 13. EGoogleARCoreFunctionStatus UGoogleARCoreFrameFunctionLibrary::GetCameraTextureIntrinsics(UGoogleARCoreCameraIntrinsics *&OutCameraIntrinsics)
    - Returns: Int array=[enum of texture cameraimageintrinsics]
 
-###Did not implement,(either duplicate or redundant):
+### Did not implement,(either duplicate or redundant):
 
 1. void UGoogleARCoreFrameFunctionLibrary::GetUpdatedPlanes(TArray<UARPlaneGeometry*>& OutPlaneList)
 2. void UGoogleARCoreFrameFunctionLibrary::GetUpdatedTrackablePoints(TArray<UARTrackedPoint*>& OutTrackablePointList)
