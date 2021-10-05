@@ -109,6 +109,7 @@ import edu.ame.asu.meteor.lenscap.visualtransceiver.VisualLensCapTransceiver;
 7. Uncomment the following lines for the LensCap variables and functions:
    * private VisualLensCapTransceiver lensCap; (line: 565)
    * StartLensCap() (line: 637-657)
+   * All the lenscap.send lines in the 600-700 line range
 8. In line 540 the **networks** gameactivity (found under gradle->app-network->src->main->java->com->epicgames.ue4) the old package name has to be replaced with the package name of your new project:
 ```
 val launchIntent = packageManager.getLaunchIntentForPackage("com.meteor.ARtest_2")
@@ -129,7 +130,7 @@ Launching the application with LensCap also requires some additional steps:
 * 6/11/2021- Added additional NDK information and cleaned up naming conventions
 * 10/5/2021- Created test branch with updated project
 ## Development Notes
-Total 35 functions in ARCore
+Total 26 functions in ARCore given to be wrapped
 ### Done:
 1. void UGoogleARCoreSessionFunctionLibrary::GetPassthroughCameraImageUV(const TArray<float>& InUV, TArray<float>& OutUV)
    - Returns: Float array=[InUv,OutUv]
