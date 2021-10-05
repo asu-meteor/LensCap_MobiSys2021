@@ -177,8 +177,8 @@ Total 26 functions in ARCore given to be wrapped
 ### Work in progress:
 
 1. void UGoogleARCoreFrameFunctionLibrary::TransformARCoordinates2D(EGoogleARCoreCoordinates2DType InputCoordinatesType, const TArray<FVector2D>& InputCoordinates, EGoogleARCoreCoordinates2DType OutputCoordinatesType, TArray<FVector2D>& OutputCoordinates)
-  -Issue: Gave dummy inputs in the Unity editor under the debug menu, still have to work out giving it real values.
+  - Issue: Gave dummy inputs in the Unity editor under the debug menu, still have to work out giving it real values.
 2. bool UGoogleARCoreFrameFunctionLibrary::ARCoreLineTrace(UObject* WorldContextObject, const FVector2D& ScreenPosition, TSet<EGoogleARCoreLineTraceChannel> TraceChannels, TArray<FARTraceResult>& OutHitResults)
-  -Issue: Gave dummy inputs in the Unity editor under the debug menu, still have to work out giving it real values.
+  - Issue: Gave dummy inputs in the Unity editor under the debug menu, still have to work out giving it real values.
 
 
