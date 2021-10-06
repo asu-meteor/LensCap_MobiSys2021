@@ -88,7 +88,6 @@
 
 		public void AndroidThunkJava_VisualTransceiverSendArrayFloat(Float[] bytesToSend, String TagReceived) throws IOException {
 
-		Log.debug("Received from network"+TagReceived);
 		if (TagReceived.split("_")[1].equals("cameraPose")) {
 			forTestBytes = Arrays.toString(bytesToSend).getBytes();
 			//lensCap.send("cameraPose", forTestBytes);
@@ -101,42 +100,10 @@
 		} else if (TagReceived.split("_")[1].equals("face")) {
 			forTestBytes = Arrays.toString(bytesToSend).getBytes();
 			//lensCap.send("face", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("cameratexture")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("cameratexture", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("trackingstate")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("trackingstate", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("linetrace")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("linetrace", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("cameratextureintrinsics")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("cameratextureintrinsics", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("cameraimageintrinsics")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("cameraimageintrinsics", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("TransformARCoordinates2D")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("TransformARCoordinates2D", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("cameraconfig")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("cameraconfig", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("points")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("points", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("plane")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("plane", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("passthrough")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("passthrough", forTestBytes);
-		} else if (TagReceived.split("_")[1].equals("image")) {
-			forTestBytes = Arrays.toString(bytesToSend).getBytes();
-			//lensCap.send("image", forTestBytes);
-		}else {
+		} else {
 			Log.debug("LensCap VisualTransceiver Send Tag Not Tracked");
 		}
+
 	}
 
 	public void AndroidThunkJava_LensCapWriteFPS(Float[] bytesToSend) throws IOException {
@@ -150,14 +117,10 @@
 
 	public void AndroidThunkJava_VisualTransceiverSendArrayInt(Integer[] bytesToSend, String TagReceived) {
 		Log.debug("LensCap VisualTransceiver Send Int"+ Arrays.toString(bytesToSend) + " with Tag " + TagReceived);
-		forTestBytes = Arrays.toString(bytesToSend).getBytes();
-		//lensCap.send(TagReceived.split("_")[1],forTestBytes);
 	}
 	public void AndroidThunkJava_VisualTransceiverSendArrayString(String[] bytesToSend, String TagReceived) throws IOException {
-	long currentTimer;
+		long currentTimer;
 		currentTimer = System.nanoTime();
-		forTestBytes = Arrays.toString(bytesToSend).getBytes();
-		//lensCap.send(TagReceived.split("_")[1],forTestBytes);
 		SimpleDateFormat ft = new SimpleDateFormat ("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
 		if (TagReceived.split("_")[1].equals("cameraFrame")) {
 			forTestBytes = ("cameraFrame|" + currentTimer + "|" + Arrays.toString(bytesToSend)).getBytes();
@@ -165,7 +128,11 @@
 		} else if (TagReceived.split("_")[1].equals("face")) {
 			forTestBytes = ("face|" + currentTimer + "|" + Arrays.toString(bytesToSend)).getBytes();
 			//lensCap.send("face", forTestBytes);
-		} else {
+		} else if (TagReceived.split("_")[1].equals("face")) {
+			forTestBytes = ("linetrace|" + currentTimer + "|" + Arrays.toString(bytesToSend)).getBytes();
+			//lensCap.send("linetrace", forTestBytes);
+    } else {
+			Log.debug(""+TagReceived);
 			Log.debug("LensCap VisualTransceiver Send Tag Not Tracked");
 		}
 	}
