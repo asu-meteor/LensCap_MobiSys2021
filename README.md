@@ -1,3 +1,5 @@
+[**Project Page**](https://meteor.ame.asu.edu/projects/lenscap/)  |  [**Video**](https://www.youtube.com/watch?v=wzC0DOEbuj8&t=2s)  | [**Paper**](https://dl.acm.org/doi/abs/10.1145/3458864.3467676)
+
 # LensCap_MobiSys2021
 Source Code for compiling LensCap plugin for Unreal Engine projects
 
@@ -117,11 +119,33 @@ val launchIntent = packageManager.getLaunchIntentForPackage("com.meteor.ARtest_2
 ioServiceIntent.setPackage("com.meteor.ARtest_2")
 ```
 *com.meteor.ARtest_2* should be replaced with own package name
+
 ### App Usage in Android
 Launching the application with LensCap also requires some additional steps:
 1. First the visual process (app-app) has to be launched, and the Start AR button must be pressed prior to launching the network.
 2. Then the network process (app-networks) can be launched, and the start AR button can be pressed on it to begin your LensCap experience
 3. The overlay of the network process can be dismissed at any time by pressing the back key on the device.
+
+## Citation
+```
+@inproceedings{10.1145/3458864.3467676,
+  author = {Hu, Jinhan and Iosifescu, Andrei and LiKamWa, Robert},
+  title = {LensCap: Split-Process Framework for Fine-Grained Visual Privacy Control for Augmented Reality Apps},
+  year = {2021},
+  isbn = {9781450384438},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  url = {https://doi.org/10.1145/3458864.3467676},
+  doi = {10.1145/3458864.3467676},
+  booktitle = {Proceedings of the 19th Annual International Conference on Mobile Systems, Applications, and Services},
+  pages = {14–27},
+  numpages = {14},
+  keywords = {AR application development, unreal engine, visual privacy, augmented reality security, split-process control},
+  location = {Virtual Event, Wisconsin},
+  series = {MobiSys '21}
+}
+```
+
 ## Revision History
 * 6/6/2021- Added Initial source code
 * 6/11/2021- Added additional NDK information and cleaned up naming conventions
